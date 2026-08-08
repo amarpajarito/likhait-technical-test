@@ -6,6 +6,7 @@ import React from "react";
 import { ExpenseFormData, Category } from "../types";
 import { TextField, SelectBox, Button } from "../vibes";
 import { useExpenseForm } from "../hooks/useExpenseForm";
+import { formatDate } from "../utils/expenseUtils";
 
 interface ExpenseFormProps {
   categories: Category[];
@@ -45,8 +46,9 @@ export function ExpenseForm({
     label: category.name,
   }));
 
+  // Skip native validation so error messages show instead
   return (
-    <form onSubmit={handleSubmit} style={formStyle}>
+    <form onSubmit={handleSubmit} style={formStyle} noValidate>
       <TextField
         label="Amount"
         type="number"
@@ -86,6 +88,7 @@ export function ExpenseForm({
         value={formData.date}
         onChange={(e) => handleChange("date", e.target.value)}
         error={errors.date}
+        max={formatDate(new Date())} // Prevent future dates
         fullWidth
         required
       />
