@@ -1,6 +1,7 @@
 class Api::ExpensesController < ApplicationController
   def index
-    expenses = Expense.includes(:category).order(created_at: :desc)
+    # Expenses should be sorted by date in descending order, not by created_at
+    expenses = Expense.includes(:category).order(date: :desc)
 
     if params[:year].present? && params[:month].present?
       year = params[:year].to_i
@@ -8,8 +9,9 @@ class Api::ExpensesController < ApplicationController
 
       start_date = Date.new(year, month, 1)
       end_date = start_date.end_of_month
-
-      expenses = expenses.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+      
+      # Filter by expense date, same reason as the sort above
+      expenses = expenses.where(date: start_date..end_date)
     end
 
     render json: expenses.map { |expense| format_expense(expense) }
