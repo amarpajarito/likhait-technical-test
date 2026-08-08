@@ -9,7 +9,8 @@ WORKDIR /rails
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential ca-certificates default-mysql-client default-libmysqlclient-dev git && \
+    # Add libyaml-dev to build the psych gem
+    apt-get install --no-install-recommends -y build-essential ca-certificates default-mysql-client default-libmysqlclient-dev libyaml-dev git && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install application gems

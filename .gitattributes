@@ -1,0 +1,2 @@
+# Force LF so Windows checkouts don't break script shebangs
+bin/* text eol=lf
