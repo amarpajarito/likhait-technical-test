@@ -9,7 +9,7 @@ class Api::ExpensesController < ApplicationController
 
       start_date = Date.new(year, month, 1)
       end_date = start_date.end_of_month
-      
+
       # Filter by expense date, same reason as the sort above
       expenses = expenses.where(date: start_date..end_date)
     end
