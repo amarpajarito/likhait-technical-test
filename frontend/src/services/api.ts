@@ -2,7 +2,7 @@
  * API service for communicating with the backend
  */
 
-import { Expense, ExpenseFormData } from "../types";
+import { Expense, ExpenseFormData, Category } from "../types";
 
 const API_BASE_URL = "http://localhost:3000/api";
 
@@ -82,13 +82,21 @@ export async function createExpense(data: ExpenseFormData): Promise<Expense> {
 export async function updateExpense(
   id: number,
   data: Partial<ExpenseFormData>,
+  categories: Category[],
 ): Promise<Expense> {
+  const category = categories.find((c) => c.name === data.category);
+
+  const expenseData = {
+    ...data,
+    category_id: category?.id,
+  };
+
   const response = await fetch(`${API_BASE_URL}/expenses/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ expense: data }),
+    body: JSON.stringify({ expense: expenseData }),
   });
 
   if (!response.ok) {
