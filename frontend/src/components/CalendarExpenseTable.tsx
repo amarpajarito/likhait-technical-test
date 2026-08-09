@@ -107,6 +107,7 @@ export function CalendarExpenseTable({
   const actionButtonsStyle: React.CSSProperties = {
     display: "flex",
     gap: "0.5rem",
+    justifyContent: "center",
   };
 
   if (expenses.length === 0) {
